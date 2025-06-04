@@ -17,7 +17,13 @@ public class PessoaFisicaService {
     }
 
     public PessoaFisica incluirClienteFisica(PessoaFisica pessoaFisica) {
-        return pessoaFisicaRepository.save(pessoaFisica);
+        String cpf = pessoaFisicaRepository.cpf(pessoaFisica.getCpf());
+        if(cpf != null) {
+            throw new IllegalStateException("Cpf já cadastrado");
+        }else {
+            pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
+        }
+        return pessoaFisica;
     }
 
     public PessoaFisica alterarClienteFisica(PessoaFisica pessoaFisica) {
