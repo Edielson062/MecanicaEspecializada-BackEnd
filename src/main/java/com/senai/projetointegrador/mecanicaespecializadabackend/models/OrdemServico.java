@@ -27,17 +27,21 @@ public class OrdemServico {
     private String status;
 
     @Column
-    private String descricao;
+    private String observacoes;
+
+    @Column
+    private Double valorTotal;
 
     public OrdemServico() {
     }
 
-    public OrdemServico(int id, LocalDate dataAbertura, LocalDate dataFechamento, String status, String descricao) {
+    public OrdemServico(int id, LocalDate dataAbertura, LocalDate dataFechamento, String status, String observacoes, Double valorTotal) {
         this.id = id;
         this.dataAbertura = dataAbertura;
         this.dataFechamento = dataFechamento;
         this.status = status;
-        this.descricao = descricao;
+        this.observacoes = observacoes;
+        this.valorTotal = valorTotal;
     }
 
     public int getId() {
@@ -88,11 +92,19 @@ public class OrdemServico {
         this.status = status;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getObservacoes() {
+        return observacoes;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
+
+    public Double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
     }
 }
