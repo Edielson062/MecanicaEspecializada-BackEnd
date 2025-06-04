@@ -26,7 +26,7 @@ public class OrdemServicoPecaService {
     public OrdemServicoPeca save(OrdemServicoPeca ordemServicoPeca) {
         int quantidade = pecaRepository.quantidadeDePecas(ordemServicoPeca.getPeca().getId());
         double valorUnitario = pecaRepository.valorUnitario(ordemServicoPeca.getPeca().getId());
-        if (quantidade > ordemServicoPeca.getQuantidade()) {
+        if (quantidade < ordemServicoPeca.getQuantidade()) {
             throw new IllegalStateException("Quantidade de peças indisponivel");
         }else{
             ordemServicoPeca.setValorTotal(ordemServicoPeca.getQuantidade() * valorUnitario);
@@ -38,7 +38,7 @@ public class OrdemServicoPecaService {
     public OrdemServicoPeca update(OrdemServicoPeca ordemServicoPeca) {
         int quantidade = pecaRepository.quantidadeDePecas(ordemServicoPeca.getPeca().getId());
         double valorUnitario = pecaRepository.valorUnitario(ordemServicoPeca.getPeca().getId());
-        if (quantidade > ordemServicoPeca.getQuantidade()) {
+        if (quantidade < ordemServicoPeca.getQuantidade()) {
             throw new IllegalStateException("Quantidade de peças indisponivel");
         }else{
             ordemServicoPeca.setValorTotal(ordemServicoPeca.getQuantidade() * valorUnitario);
