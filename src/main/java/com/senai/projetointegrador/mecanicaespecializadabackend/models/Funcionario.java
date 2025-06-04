@@ -1,38 +1,39 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.models;
+
 import jakarta.persistence.*;
 
-
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Cliente {
+@Table(name = "fucionario")
+public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
-    @Column(name = "nome", length = 50, nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "telefone", length = 13, nullable = false)
-    private String telefone;
+    @Column(name = "cpf", nullable = false)
+    private String cpf;
 
-    public Cliente() {
+    public Funcionario() {
     }
 
-    public Cliente(int id, String nome, String email, String telefone) {
+    public Funcionario(Integer id, String nome, String email, String cpf) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.telefone = telefone;
+        this.cpf = cpf;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -52,11 +53,11 @@ public abstract class Cliente {
         this.email = email;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }
