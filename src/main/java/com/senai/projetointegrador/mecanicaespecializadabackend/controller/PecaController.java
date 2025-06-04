@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("peca")
+@CrossOrigin("*")
 public class PecaController {
     @Autowired
     private PecaService pecaService;

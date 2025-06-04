@@ -3,14 +3,14 @@ package com.senai.projetointegrador.mecanicaespecializadabackend.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ordemServicoPeca")
-public class OrdemServicoPeca {
+@Table(name="ordemServicoServico")
+public class OrdemServicoServico {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ManyToOne
-    private Peca peca;
+    private Servico servico;
 
     @ManyToOne
     private OrdemServico ordemServico;
@@ -19,12 +19,13 @@ public class OrdemServicoPeca {
     private int quantidade;
 
     @Column
-    private double valorTotal;
+    private Double valorTotal;
 
-    public OrdemServicoPeca() {
+
+    public OrdemServicoServico() {
     }
 
-    public OrdemServicoPeca(int id, int quantidade, double valorTotal) {
+    public OrdemServicoServico(int id, int quantidade, Double valorTotal) {
         this.id = id;
         this.quantidade = quantidade;
         this.valorTotal = valorTotal;
@@ -46,12 +47,20 @@ public class OrdemServicoPeca {
         this.quantidade = quantidade;
     }
 
-    public double getValorTotal() {
+    public Double getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(double valorTotal) {
+    public void setValorTotal(Double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public Servico getServico() {
+        return servico;
+    }
+
+    public void setServico(Servico servico) {
+        this.servico = servico;
     }
 
     public OrdemServico getOrdemServico() {
@@ -60,13 +69,5 @@ public class OrdemServicoPeca {
 
     public void setOrdemServico(OrdemServico ordemServico) {
         this.ordemServico = ordemServico;
-    }
-
-    public Peca getPeca() {
-        return peca;
-    }
-
-    public void setPeca(Peca peca) {
-        this.peca = peca;
     }
 }
