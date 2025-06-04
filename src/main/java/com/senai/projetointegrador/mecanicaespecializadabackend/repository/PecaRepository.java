@@ -13,4 +13,7 @@ public interface PecaRepository extends JpaRepository<Peca, Integer> {
 
     @Query("select p.valorUnitario from Peca p where p.id = :idPeca")
     Double valorUnitario(@PathVariable int idPeca);
+
+    @Query("select p.codigo from Peca p where p.codigo = :codigoPeca")
+    String codigoPeca(@PathVariable String codigoPeca);
 }

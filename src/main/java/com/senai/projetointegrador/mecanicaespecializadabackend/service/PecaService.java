@@ -22,7 +22,13 @@ public class PecaService {
     }
 
     public Peca save(Peca peca) {
-        return this.pecaRepository.save(peca);
+        String codigoPeca = pecaRepository.codigoPeca(peca.getCodigo());
+        if (codigoPeca != null) {
+            throw new IllegalStateException("Codigo da peça já cadastrado");
+        }else{
+            peca = this.pecaRepository.save(peca);
+        }
+        return peca;
     }
 
     public Peca update(Peca peca) {
