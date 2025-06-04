@@ -31,7 +31,7 @@ public class OrdemSerivicoPecaController {
 
     @PutMapping
     public OrdemServicoPeca atualizar(@RequestBody OrdemServicoPeca ordemServicoPeca) {
-        return ordemServicoPecaService.save(ordemServicoPeca);
+        return ordemServicoPecaService.update(ordemServicoPeca);
     }
 
     @DeleteMapping("{id}")

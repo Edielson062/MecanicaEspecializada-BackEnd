@@ -22,6 +22,9 @@ public class Veiculo {
     @Column(name = "quilometragem", nullable = false)
     private Integer quilometragem;
 
+    @Column(name = "idCliente", nullable = false)
+    private Integer idCliente;
+
     public Veiculo() {
     }
 
@@ -43,6 +46,14 @@ public class Veiculo {
 
     public String getMarca() {
         return marca;
+    }
+
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
     }
 
     public void setMarca(String marca) {
