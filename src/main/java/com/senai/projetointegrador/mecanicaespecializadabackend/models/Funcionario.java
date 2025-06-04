@@ -19,6 +19,7 @@ public class Funcionario {
     @Column(name = "cpf", nullable = false)
     private String cpf;
 
+
     public Funcionario() {
     }
 

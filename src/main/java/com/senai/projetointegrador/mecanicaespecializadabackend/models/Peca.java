@@ -10,6 +10,9 @@ public class Peca {
     private int id;
 
     @Column
+    private String codigo;
+
+    @Column
     private String descricao;
 
     @Column
@@ -20,8 +23,9 @@ public class Peca {
 
     public Peca() {}
 
-    public Peca(int id, String descricao, double valorUnitario, int quantidade) {
+    public Peca(int id, String codigo, String descricao, double valorUnitario, int quantidade) {
         this.id = id;
+        this.codigo = codigo;
         this.descricao = descricao;
         this.valorUnitario = valorUnitario;
         this.quantidade = quantidade;
@@ -37,6 +41,14 @@ public class Peca {
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public void setDescricao(String descricao) {
