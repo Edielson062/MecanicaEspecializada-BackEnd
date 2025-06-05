@@ -6,13 +6,13 @@ import jakarta.persistence.Entity;
 @Entity
 public class PessoaJuridica extends  Cliente {
 
-    @Column(name = "cnpj", length = 14, nullable = false)
+    @Column(name = "cnpj", nullable = false, unique = true, length = 18)
     private String cnpj;
 
     public PessoaJuridica() {
     }
 
-    public PessoaJuridica(int id, String nome, String email, String telefone, String cnpj) {
+    public PessoaJuridica(Integer id, String nome, String email, String telefone, String cnpj) {
         super(id, nome, email, telefone);
         this.cnpj = cnpj;
     }

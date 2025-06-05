@@ -5,29 +5,30 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "servico")
 public class Servico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
-    @Column
+    @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column
+    @Column(name = "valorUnitario", nullable = false)
     private int valorUnitario;
 
     public Servico() {}
 
-    public Servico(int id, String descricao, int valorUnitario) {
+    public Servico(Integer id, String descricao, int valorUnitario) {
         this.id = id;
         this.descricao = descricao;
         this.valorUnitario = valorUnitario;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

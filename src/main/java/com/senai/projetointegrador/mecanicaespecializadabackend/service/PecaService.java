@@ -13,15 +13,11 @@ public class PecaService {
     @Autowired
     private PecaRepository pecaRepository;
 
-    public List<Peca> findAll() {
-        return pecaRepository.findAll();
-    }
-
-    public Peca findById(int id) {
+    public Peca buscarPorId(Integer id) {
         return this.pecaRepository.findById(id).orElseThrow(() -> new RuntimeException("Veiculo não encontrado com o ID: " + id));
     }
 
-    public Peca save(Peca peca) {
+    public Peca salvarPeca(Peca peca) {
         String codigoPeca = pecaRepository.codigoPeca(peca.getCodigo());
         if (codigoPeca != null) {
             throw new IllegalStateException("Codigo da peça já cadastrado");
@@ -31,11 +27,15 @@ public class PecaService {
         return peca;
     }
 
-    public Peca update(Peca peca) {
+    public List<Peca> listarPecas() {
+        return pecaRepository.findAll();
+    }
+
+    public Peca atualizarPeca(Peca peca) {
         return this.pecaRepository.save(peca);
     }
 
-    public void delete(int id) {
+    public void deletarPeca(Integer id) {
         pecaRepository.deleteById(id);
     }
 }

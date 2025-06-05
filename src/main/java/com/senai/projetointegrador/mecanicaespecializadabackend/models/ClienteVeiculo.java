@@ -8,7 +8,7 @@ public class ClienteVeiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     private Cliente cliente;
@@ -24,8 +24,12 @@ public class ClienteVeiculo {
         this.veiculo = veiculo;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Cliente getCliente() {
@@ -40,12 +44,7 @@ public class ClienteVeiculo {
         return veiculo;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
-
     }
 }

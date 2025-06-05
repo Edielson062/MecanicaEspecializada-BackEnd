@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("funcionarios")
+@RequestMapping("funcionario")
 @CrossOrigin("*")
 public class FuncionarioController {
 
@@ -16,23 +16,23 @@ public class FuncionarioController {
     FuncionarioService funcionarioService;
 
     @PostMapping
-    public Funcionario salvarFuncionario(Funcionario funcionario){
+    public Funcionario salvarFuncionario(@RequestBody Funcionario funcionario){
         return funcionarioService.salvarFuncionario(funcionario);
     }
 
     @GetMapping
-    public List<Funcionario> listarFuncionario(){
+    public List<Funcionario> listarFuncionarios(){
         return funcionarioService.listarFuncionarios();
     }
 
     @PutMapping
-    public Funcionario alterarFuncionario(Funcionario funcionario){
-        return funcionarioService.alterarFuncionario(funcionario);
+    public Funcionario atualizarFuncionario(@RequestBody Funcionario funcionario){
+        return funcionarioService.atualizarFuncionario(funcionario);
     }
 
     @DeleteMapping("/{id}/")
-    public void deletarFuncionario(@PathVariable Integer funcionarioId){
-        funcionarioService.deletarFuncionario(funcionarioId);
+    public void deletarFuncionario(@PathVariable Integer id){
+        funcionarioService.deletarFuncionario(id);
     }
 
 }

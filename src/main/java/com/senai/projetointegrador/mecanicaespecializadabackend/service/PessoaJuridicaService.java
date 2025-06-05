@@ -9,22 +9,23 @@ import java.util.List;
 
 @Service
 public class PessoaJuridicaService {
+
     @Autowired
     private PessoaJuridicaRepository pessoaJuridicaRepository;
 
-    public List<PessoaJuridica> listarClienteJuridica(){
+    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) {
+        return pessoaJuridicaRepository.save(pessoaJuridica);
+    }
+
+    public List<PessoaJuridica> listarPessoasJuridicas(){
         return pessoaJuridicaRepository.findAll();
     }
 
-    public PessoaJuridica incluirClienteJuridica(PessoaJuridica pessoaJuridica) {
+    public PessoaJuridica atualizarPessoaJuridica(PessoaJuridica pessoaJuridica) {
         return pessoaJuridicaRepository.save(pessoaJuridica);
     }
 
-    public PessoaJuridica alterarClienteJuridica(PessoaJuridica pessoaJuridica) {
-        return pessoaJuridicaRepository.save(pessoaJuridica);
-    }
-
-    public void deletarByIdClienteJuridica(int id) {
+    public void deletarPessoaJuridica(Integer id) {
         pessoaJuridicaRepository.deleteById(id);
     }
 }

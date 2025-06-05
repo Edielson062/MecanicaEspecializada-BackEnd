@@ -7,9 +7,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "ordemServico")
 public class OrdemServico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     private Cliente cliente;
@@ -32,19 +33,21 @@ public class OrdemServico {
     public OrdemServico() {
     }
 
-    public OrdemServico(int id, LocalDate dataAbertura, LocalDate dataFechamento, String status, String descricao) {
+    public OrdemServico(Integer id, Cliente cliente, Veiculo veiculo, LocalDate dataAbertura, LocalDate dataFechamento, String status, String descricao) {
         this.id = id;
+        this.cliente = cliente;
+        this.veiculo = veiculo;
         this.dataAbertura = dataAbertura;
         this.dataFechamento = dataFechamento;
         this.status = status;
         this.descricao = descricao;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

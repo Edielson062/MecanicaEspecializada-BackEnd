@@ -21,11 +21,11 @@ public class FuncionarioService {
         return funcionarioRepository.findAll();
     }
 
-    public Funcionario alterarFuncionario(Funcionario funcionario){
+    public Funcionario atualizarFuncionario(Funcionario funcionario){
         return funcionarioRepository.save(funcionario);
     }
 
-    public void deletarFuncionario(Integer funcionarioId){
-        funcionarioRepository.deleteById(funcionarioId);
+    public void deletarFuncionario(Integer id){
+        funcionarioRepository.deleteById(id);
     }
 }

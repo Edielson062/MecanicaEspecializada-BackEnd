@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="ordemServicoServico")
 public class OrdemServicoServico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     private Servico servico;
@@ -25,17 +26,19 @@ public class OrdemServicoServico {
     public OrdemServicoServico() {
     }
 
-    public OrdemServicoServico(int id, int quantidade, Double valorTotal) {
+    public OrdemServicoServico(Integer id, Servico servico, OrdemServico ordemServico, int quantidade, Double valorTotal) {
         this.id = id;
+        this.servico = servico;
+        this.ordemServico = ordemServico;
         this.quantidade = quantidade;
         this.valorTotal = valorTotal;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
