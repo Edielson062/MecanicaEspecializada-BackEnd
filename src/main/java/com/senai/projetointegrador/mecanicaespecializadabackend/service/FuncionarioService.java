@@ -21,7 +21,7 @@ public class FuncionarioService {
         return funcionarioRepository.findAll();
     }
 
-    public Funcionario alterarFuncionario(Funcionario funcionario){
+    public Funcionario atualizarFuncionario(Funcionario funcionario){
         String cpf = funcionarioRepository.cpfFuncionario(funcionario.getCpf());
         if(cpf != null){
             throw new IllegalStateException("Cpf já cadastrado!");
