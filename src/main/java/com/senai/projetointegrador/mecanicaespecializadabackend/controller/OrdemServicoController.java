@@ -33,6 +33,16 @@ public class OrdemServicoController {
         return ordemServicoService.update(ordemServico);
     }
 
+    @PutMapping("/{id}/pagar")
+    public OrdemServico pagarOrdemServico(@PathVariable int id) {
+        return ordemServicoService.pagarOrdemServico(id);
+    }
+
+    @PutMapping("/{id}/cancelar")
+    public OrdemServico cancelarOrdemServico(@PathVariable int id) {
+        return ordemServicoService.cancelarOrdemServico(id);
+    }
+
     @DeleteMapping("/{id}")
     public void remover(@PathVariable Integer id) {
         ordemServicoService.delete(id);

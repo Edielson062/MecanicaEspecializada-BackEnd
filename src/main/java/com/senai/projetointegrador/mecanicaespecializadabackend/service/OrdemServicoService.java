@@ -1,6 +1,7 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.service;
 
 
+import com.senai.projetointegrador.mecanicaespecializadabackend.enums.StatusOrdemServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.OrdemServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemSerivicoRepository;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoPecaRepository;
@@ -8,6 +9,7 @@ import com.senai.projetointegrador.mecanicaespecializadabackend.repository.Ordem
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,6 +30,9 @@ public class OrdemServicoService {
     }
 
     public OrdemServico save(OrdemServico ordemServico) {
+        if (ordemServico.getStatus() == null) {
+            ordemServico.setStatus(StatusOrdemServico.EM_ABERTO);
+        }
         List<Double> valoresOSS = ordemServicoServicoRepository.valoresOss(ordemServico.getId());
         Double valorTotalOSS = 0.0;
         List<Double> valoresOSP = ordemServicoPecaRepository.valoresOsp(ordemServico.getId());
@@ -42,7 +47,42 @@ public class OrdemServicoService {
         return ordemSerivicoRepository.save(ordemServico);
     }
 
+
     public OrdemServico update(OrdemServico ordemServico) {
+        List<Double> valoresOSS = ordemServicoServicoRepository.valoresOss(ordemServico.getId());
+        Double valorTotalOSS = 0.0;
+        List<Double> valoresOSP = ordemServicoPecaRepository.valoresOsp(ordemServico.getId());
+        Double valorTotalOSP = 0.0;
+        Double valorAnterior = ordemSerivicoRepository.valorAnterio(ordemServico.getId());
+        for (int i = 0; i < valoresOSS.size(); i++) {
+            valorTotalOSS += valoresOSS.get(i);
+        }
+        for (int i = 0; i < valoresOSP.size(); i++) {
+            valorTotalOSP += valoresOSP.get(i);
+        }
+        if (valorAnterior != (valorTotalOSP + valorTotalOSS)) {
+            ordemServico.setValorTotal(valorTotalOSS + valorTotalOSP);
+        }
+        return ordemSerivicoRepository.save(ordemServico);
+    }
+
+    public OrdemServico pagarOrdemServico(int id) {
+        OrdemServico ordemServico = ordemSerivicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ordem de Serviço com ID " + id + " não encontrada."));
+
+        ordemServico.setStatus(StatusOrdemServico.PAGA);
+        ordemServico.setDataFechamento(LocalDate.now());
+
+        return ordemSerivicoRepository.save(ordemServico);
+    }
+
+    public OrdemServico cancelarOrdemServico(int id) {
+        OrdemServico ordemServico = ordemSerivicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ordem de Serviço com ID " + id + " não encontrada."));
+
+        ordemServico.setStatus(StatusOrdemServico.CANCELADA);
+        ordemServico.setDataFechamento(LocalDate.now());
+
         return ordemSerivicoRepository.save(ordemServico);
     }
 

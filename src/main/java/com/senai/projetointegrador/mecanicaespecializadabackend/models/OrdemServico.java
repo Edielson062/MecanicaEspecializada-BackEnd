@@ -1,5 +1,6 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.models;
 
+import com.senai.projetointegrador.mecanicaespecializadabackend.enums.StatusOrdemServico;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -23,8 +24,9 @@ public class OrdemServico {
     @Column
     private LocalDate dataFechamento;
 
-    @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusOrdemServico status = StatusOrdemServico.EM_ABERTO;;
 
     @Column
     private String observacoes;
@@ -35,7 +37,7 @@ public class OrdemServico {
     public OrdemServico() {
     }
 
-    public OrdemServico(int id, LocalDate dataAbertura, LocalDate dataFechamento, String status, String observacoes, Double valorTotal) {
+    public OrdemServico(int id, LocalDate dataAbertura, LocalDate dataFechamento, StatusOrdemServico status, String observacoes, Double valorTotal) {
         this.id = id;
         this.dataAbertura = dataAbertura;
         this.dataFechamento = dataFechamento;
@@ -84,11 +86,11 @@ public class OrdemServico {
         this.dataFechamento = dataFechamento;
     }
 
-    public String getStatus() {
+    public StatusOrdemServico getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusOrdemServico status) {
         this.status = status;
     }
 
