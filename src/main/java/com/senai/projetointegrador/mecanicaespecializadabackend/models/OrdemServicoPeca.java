@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "ordemServicoPeca")
 public class OrdemServicoPeca {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     private Peca peca;
@@ -24,17 +25,19 @@ public class OrdemServicoPeca {
     public OrdemServicoPeca() {
     }
 
-    public OrdemServicoPeca(int id, int quantidade, double valorTotal) {
+    public OrdemServicoPeca(Integer id, Peca peca, OrdemServico ordemServico, int quantidade, double valorTotal) {
         this.id = id;
+        this.peca = peca;
+        this.ordemServico = ordemServico;
         this.quantidade = quantidade;
         this.valorTotal = valorTotal;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

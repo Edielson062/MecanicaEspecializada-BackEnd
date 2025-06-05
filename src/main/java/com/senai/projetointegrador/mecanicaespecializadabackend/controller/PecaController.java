@@ -11,31 +11,32 @@ import java.util.List;
 @RequestMapping("peca")
 @CrossOrigin("*")
 public class PecaController {
+
     @Autowired
     private PecaService pecaService;
 
-    @GetMapping
-    public List<Peca> getAllPecas(){
-        return pecaService.findAll();
-    }
-
     @GetMapping("/{id}")
-    public Peca getPecaById(@PathVariable int id){
-        return pecaService.findById(id);
+    public Peca listarPorId(@PathVariable Integer id){
+        return pecaService.buscarPorId(id);
     }
 
     @PostMapping
-    public Peca createPeca(@RequestBody Peca peca){
-        return pecaService.save(peca);
+    public Peca salvarPeca(@RequestBody Peca peca){
+        return pecaService.salvarPeca(peca);
+    }
+
+    @GetMapping
+    public List<Peca> listarPecas(){
+        return pecaService.listarPecas();
     }
 
     @PutMapping
-    public Peca updatePeca(@RequestBody Peca peca){
-        return pecaService.update(peca);
+    public Peca atualizarPeca(@RequestBody Peca peca){
+        return pecaService.atualizarPeca(peca);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePeca(@PathVariable int id){
-        pecaService.delete(id);
+    public void deletarPeca(@PathVariable Integer id){
+        pecaService.deletarPeca(id);
     }
 }

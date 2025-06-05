@@ -12,15 +12,15 @@ public class PessoaJuridicaService {
     @Autowired
     private PessoaJuridicaRepository pessoaJuridicaRepository;
 
-    public List<PessoaJuridica> listarClienteJuridica(){
+    public List<PessoaJuridica> listarPessoasJuridicas(){
         return pessoaJuridicaRepository.findAll();
     }
 
-    public PessoaJuridica incluirClienteJuridica(PessoaJuridica pessoaJuridica) {
+    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) {
         return pessoaJuridicaRepository.save(pessoaJuridica);
     }
 
-    public PessoaJuridica alterarClienteJuridica(PessoaJuridica pessoaJuridica) {
+    public PessoaJuridica atualizarPessoaJuridica(PessoaJuridica pessoaJuridica) {
         String cnpj = pessoaJuridicaRepository.cnpj(pessoaJuridica.getCnpj());
         if(cnpj != null){
             throw new IllegalStateException("Cnpj já cadastrado");
@@ -30,7 +30,7 @@ public class PessoaJuridicaService {
         return pessoaJuridica;
     }
 
-    public void deletarByIdClienteJuridica(int id) {
+    public void deletarPessoaJuridica(int id) {
         pessoaJuridicaRepository.deleteById(id);
     }
 }

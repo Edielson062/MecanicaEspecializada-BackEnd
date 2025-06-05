@@ -11,31 +11,32 @@ import java.util.List;
 @RequestMapping("servico")
 @CrossOrigin("*")
 public class ServicoController {
+
     @Autowired
     private ServicoService servicoService;
 
-    @GetMapping
-    public List<Servico> listar() {
-        return servicoService.findAll();
-    }
-
     @GetMapping("/{id}")
-    public Servico buscar(@PathVariable int id) {
-        return servicoService.findById(id);
+    public Servico buscarPorId(@PathVariable Integer id) {
+        return servicoService.buscarPorId(id);
     }
 
     @PostMapping
-    public Servico inserir(@RequestBody Servico servico) {
-        return servicoService.save(servico);
+    public Servico salvarServico(@RequestBody Servico servico) {
+        return servicoService.salvarServico(servico);
+    }
+
+    @GetMapping
+    public List<Servico> listarServicos() {
+        return servicoService.listarServicos();
     }
 
     @PutMapping
-    public Servico atualizar(@RequestBody Servico servico) {
-        return servicoService.update(servico);
+    public Servico atualizarServico(@RequestBody Servico servico) {
+        return servicoService.atualizarServico(servico);
     }
 
     @DeleteMapping("/{id}")
-    public void remover(@PathVariable int id) {
-        servicoService.delete(id);
+    public void deletarServico(@PathVariable Integer id) {
+        servicoService.deletarServico(id);
     }
 }

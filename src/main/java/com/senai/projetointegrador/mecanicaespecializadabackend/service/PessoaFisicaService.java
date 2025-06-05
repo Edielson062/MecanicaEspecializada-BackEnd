@@ -12,11 +12,11 @@ public class PessoaFisicaService {
     @Autowired
     private PessoaFisicaRepository pessoaFisicaRepository;
 
-    public List<PessoaFisica> listarClienteFisica(){
+    public List<PessoaFisica> listarPessoasFisicas(){
         return pessoaFisicaRepository.findAll();
     }
 
-    public PessoaFisica incluirClienteFisica(PessoaFisica pessoaFisica) {
+    public PessoaFisica salvarPessoaFisica(PessoaFisica pessoaFisica) {
         String cpf = pessoaFisicaRepository.cpf(pessoaFisica.getCpf());
         if(cpf != null) {
             throw new IllegalStateException("Cpf já cadastrado");
@@ -26,11 +26,11 @@ public class PessoaFisicaService {
         return pessoaFisica;
     }
 
-    public PessoaFisica alterarClienteFisica(PessoaFisica pessoaFisica) {
+    public PessoaFisica atualizarPessoaFisica(PessoaFisica pessoaFisica) {
         return pessoaFisicaRepository.save(pessoaFisica);
     }
 
-    public void deletarByIdClienteFisica(int id) {
+    public void deletarPessoaFisica(int id) {
         pessoaFisicaRepository.deleteById(id);
     }
 }

@@ -10,20 +10,17 @@ import java.util.List;
 
 @Service
 public class OrdemServicoPecaService {
+
     @Autowired
     private OrdemServicoPecaRepository ordemServicoPecaRepository;
     @Autowired
     private PecaRepository pecaRepository;
 
-    public List<OrdemServicoPeca> findAll() {
-        return ordemServicoPecaRepository.findAll();
-    }
-
-    public OrdemServicoPeca findById(Integer id) {
+    public OrdemServicoPeca buscarPorId(Integer id) {
         return ordemServicoPecaRepository.findById(id).orElseThrow(() -> new RuntimeException("Veiculo não encontrado com o ID: " + id));
     }
 
-    public OrdemServicoPeca save(OrdemServicoPeca ordemServicoPeca) {
+    public OrdemServicoPeca salvarOrdemServicoPeca(OrdemServicoPeca ordemServicoPeca) {
         int quantidade = pecaRepository.quantidadeDePecas(ordemServicoPeca.getPeca().getId());
         double valorUnitario = pecaRepository.valorUnitario(ordemServicoPeca.getPeca().getId());
         if (quantidade < ordemServicoPeca.getQuantidade()) {
@@ -35,7 +32,11 @@ public class OrdemServicoPecaService {
         return ordemServicoPeca;
     }
 
-    public OrdemServicoPeca update(OrdemServicoPeca ordemServicoPeca) {
+    public List<OrdemServicoPeca> listarOrdemServicoPecas() {
+        return ordemServicoPecaRepository.findAll();
+    }
+
+    public OrdemServicoPeca atualizarOrdemServicoPeca(OrdemServicoPeca ordemServicoPeca) {
         int quantidade = pecaRepository.quantidadeDePecas(ordemServicoPeca.getPeca().getId());
         double valorUnitario = pecaRepository.valorUnitario(ordemServicoPeca.getPeca().getId());
         if (quantidade < ordemServicoPeca.getQuantidade()) {
@@ -47,7 +48,7 @@ public class OrdemServicoPecaService {
         return ordemServicoPeca;
     }
 
-    public void delete(Integer id) {
+    public void deletarOrdemServicoPeca(Integer id) {
         ordemServicoPecaRepository.deleteById(id);
     }
 }
