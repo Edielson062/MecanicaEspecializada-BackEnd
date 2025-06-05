@@ -1,6 +1,6 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.controller;
 
-import com.senai.projetointegrador.mecanicaespecializadabackend.models.OrdemServico;
+import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoDTO;
 import com.senai.projetointegrador.mecanicaespecializadabackend.service.OrdemServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,23 +16,33 @@ public class OrdemServicoController {
     private OrdemServicoService ordemServicoService;
 
     @GetMapping("/{id}")
-    public OrdemServico buscarPorId(@PathVariable Integer id) {
+    public OrdemServicoDTO buscarPorId(@PathVariable Integer id) {
         return ordemServicoService.buscarPorId(id);
     }
 
     @PostMapping
-    public OrdemServico salvarOrdemServico(@RequestBody OrdemServico ordemServico) {
-        return ordemServicoService.salvarOrdemServico(ordemServico);
+    public OrdemServicoDTO salvarOrdemServico(@RequestBody OrdemServicoDTO ordemServicoDTO) {
+        return ordemServicoService.salvarOrdemServico(ordemServicoDTO);
     }
 
     @GetMapping
-    public List<OrdemServico> listarOrdensServico() {
+    public List<OrdemServicoDTO> listarOrdensServico() {
         return ordemServicoService.listarOrdensServico();
     }
 
     @PutMapping
-    public OrdemServico atualizarOrdemServico(@RequestBody OrdemServico ordemServico) {
-        return ordemServicoService.atualizarOrdemServico(ordemServico);
+    public OrdemServicoDTO atualizarOrdemServico(@RequestBody OrdemServicoDTO ordemServicoDTO) {
+        return ordemServicoService.atualizarOrdemServico(ordemServicoDTO);
+    }
+
+    @PutMapping("/{id}/pagar")
+    public OrdemServicoDTO pagarOrdemServico(@PathVariable int id) {
+        return ordemServicoService.pagarOrdemServico(id);
+    }
+
+    @PutMapping("/{id}/cancelar")
+    public OrdemServicoDTO cancelarOrdemServico(@PathVariable int id) {
+        return ordemServicoService.cancelarOrdemServico(id);
     }
 
     @DeleteMapping("/{id}")

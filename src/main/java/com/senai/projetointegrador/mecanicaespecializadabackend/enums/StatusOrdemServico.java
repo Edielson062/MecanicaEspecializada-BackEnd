@@ -5,3 +5,4 @@ public enum StatusOrdemServico {
     PAGA,
     CANCELADA
 }
+

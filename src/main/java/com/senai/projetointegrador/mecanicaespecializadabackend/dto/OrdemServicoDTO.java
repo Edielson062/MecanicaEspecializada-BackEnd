@@ -1,72 +1,42 @@
-package com.senai.projetointegrador.mecanicaespecializadabackend.models;
+package com.senai.projetointegrador.mecanicaespecializadabackend.dto;
 
 import com.senai.projetointegrador.mecanicaespecializadabackend.enums.StatusOrdemServico;
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "ordemServico")
-public class OrdemServico {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+public class OrdemServicoDTO {
 
-    @ManyToOne
-    private Cliente cliente;
-
-    @ManyToOne
-    private Veiculo veiculo;
-
-    @Column
+    private Integer id;
+    private ClienteDTO cliente;
+    private VeiculoDTO veiculo;
     private LocalDate dataAbertura;
-
-    @Column
     private LocalDate dataFechamento;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private StatusOrdemServico status = StatusOrdemServico.EM_ABERTO;;
-
-    @Column
+    private StatusOrdemServico status;
     private String observacoes;
-
-    @Column
     private Double valorTotal;
 
-    public OrdemServico() {
-    }
-
-    public OrdemServico(int id, LocalDate dataAbertura, LocalDate dataFechamento, StatusOrdemServico status, String observacoes, Double valorTotal) {
-        this.id = id;
-        this.dataAbertura = dataAbertura;
-        this.dataFechamento = dataFechamento;
-        this.status = status;
-        this.observacoes = observacoes;
-        this.valorTotal = valorTotal;
-    }
-
-    public int getId() {
+    // Getters e Setters
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Cliente getCliente() {
+    public ClienteDTO getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(ClienteDTO cliente) {
         this.cliente = cliente;
     }
 
-    public Veiculo getVeiculo() {
+    public VeiculoDTO getVeiculo() {
         return veiculo;
     }
 
-    public void setVeiculo(Veiculo veiculo) {
+    public void setVeiculo(VeiculoDTO veiculo) {
         this.veiculo = veiculo;
     }
 
@@ -108,5 +78,39 @@ public class OrdemServico {
 
     public void setValorTotal(Double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    // Classes internas para Cliente e Veiculo simplificados
+    public static class ClienteDTO {
+        private Integer id;
+        private String tipo;  // opcional, se quiser informar tipo (fisica/juridica)
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getTipo() {
+            return tipo;
+        }
+
+        public void setTipo(String tipo) {
+            this.tipo = tipo;
+        }
+    }
+
+    public static class VeiculoDTO {
+        private Integer id;
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
     }
 }

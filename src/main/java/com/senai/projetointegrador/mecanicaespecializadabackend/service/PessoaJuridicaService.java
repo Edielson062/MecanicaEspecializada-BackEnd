@@ -9,23 +9,28 @@ import java.util.List;
 
 @Service
 public class PessoaJuridicaService {
-
     @Autowired
     private PessoaJuridicaRepository pessoaJuridicaRepository;
-
-    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) {
-        return pessoaJuridicaRepository.save(pessoaJuridica);
-    }
 
     public List<PessoaJuridica> listarPessoasJuridicas(){
         return pessoaJuridicaRepository.findAll();
     }
 
-    public PessoaJuridica atualizarPessoaJuridica(PessoaJuridica pessoaJuridica) {
+    public PessoaJuridica salvarPessoaJuridica(PessoaJuridica pessoaJuridica) {
         return pessoaJuridicaRepository.save(pessoaJuridica);
     }
 
-    public void deletarPessoaJuridica(Integer id) {
+    public PessoaJuridica atualizarPessoaJuridica(PessoaJuridica pessoaJuridica) {
+        String cnpj = pessoaJuridicaRepository.cnpj(pessoaJuridica.getCnpj());
+        if(cnpj != null){
+            throw new IllegalStateException("Cnpj já cadastrado");
+        }else{
+            pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
+        }
+        return pessoaJuridica;
+    }
+
+    public void deletarPessoaJuridica(int id) {
         pessoaJuridicaRepository.deleteById(id);
     }
 }

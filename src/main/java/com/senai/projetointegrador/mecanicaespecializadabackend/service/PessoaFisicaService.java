@@ -9,30 +9,28 @@ import java.util.List;
 
 @Service
 public class PessoaFisicaService {
-
     @Autowired
     private PessoaFisicaRepository pessoaFisicaRepository;
 
-    //salvarPessoaFisica
-    public PessoaFisica incluirClienteFisica(PessoaFisica pessoaFisica) {
+    public List<PessoaFisica> listarPessoasFisicas(){
+        return pessoaFisicaRepository.findAll();
+    }
+
+    public PessoaFisica salvarPessoaFisica(PessoaFisica pessoaFisica) {
         String cpf = pessoaFisicaRepository.cpf(pessoaFisica.getCpf());
-        if (cpf != null) {
+        if(cpf != null) {
             throw new IllegalStateException("Cpf já cadastrado");
-        } else {
+        }else {
             pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
         }
         return pessoaFisica;
-    }
-
-    public List<PessoaFisica> listarPessoasFisicas(){
-        return pessoaFisicaRepository.findAll();
     }
 
     public PessoaFisica atualizarPessoaFisica(PessoaFisica pessoaFisica) {
         return pessoaFisicaRepository.save(pessoaFisica);
     }
 
-    public void deletarPessoaFisica(Integer id) {
+    public void deletarPessoaFisica(int id) {
         pessoaFisicaRepository.deleteById(id);
     }
 }

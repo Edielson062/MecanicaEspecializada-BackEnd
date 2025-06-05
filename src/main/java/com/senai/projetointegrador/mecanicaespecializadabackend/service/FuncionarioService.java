@@ -31,7 +31,7 @@ public class FuncionarioService {
         return funcionario;
     }
 
-    public void deletarFuncionario(Integer id){
-        funcionarioRepository.deleteById(id);
+    public void deletarFuncionario(Integer funcionarioId){
+        funcionarioRepository.deleteById(funcionarioId);
     }
 }

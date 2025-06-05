@@ -9,13 +9,13 @@ public class PessoaJuridica extends  Cliente {
     @Column(name = "razaoSocial", nullable = false)
     private String razaoSocial;
 
-    @Column(name = "cnpj", nullable = false, length = 18)
+    @Column(name = "cnpj", length = 20, unique = true, nullable = false)
     private String cnpj;
 
     public PessoaJuridica() {
     }
 
-    public PessoaJuridica(Integer id, String nome, String email, String telefone, String razaoSocial, String cnpj) {
+    public PessoaJuridica(int id, String nome, String email, String telefone, String razaoSocial, String cnpj) {
         super(id, nome, email, telefone);
         this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;

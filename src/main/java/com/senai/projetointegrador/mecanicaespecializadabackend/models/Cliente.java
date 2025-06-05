@@ -1,6 +1,18 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.models;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = PessoaFisica.class, name = "fisica"),
+        @JsonSubTypes.Type(value = PessoaJuridica.class, name = "juridica")
+})
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,7 +28,7 @@ public abstract class Cliente {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "telefone", nullable = false, length = 13)
+    @Column(name = "telefone", nullable = false, length = 20)
     private String telefone;
 
     public Cliente() {
