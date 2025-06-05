@@ -6,15 +6,27 @@ import jakarta.persistence.Entity;
 @Entity
 public class PessoaJuridica extends  Cliente {
 
-    @Column(name = "cnpj", nullable = false, unique = true, length = 18)
+    @Column(name = "razaoSocial", nullable = false)
+    private String razaoSocial;
+
+    @Column(name = "cnpj", nullable = false, length = 18)
     private String cnpj;
 
     public PessoaJuridica() {
     }
 
-    public PessoaJuridica(Integer id, String nome, String email, String telefone, String cnpj) {
+    public PessoaJuridica(Integer id, String nome, String email, String telefone, String razaoSocial, String cnpj) {
         super(id, nome, email, telefone);
+        this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
+    }
+
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
+
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
     }
 
     public String getCnpj() {

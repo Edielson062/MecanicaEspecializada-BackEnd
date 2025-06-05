@@ -22,7 +22,13 @@ public class FuncionarioService {
     }
 
     public Funcionario atualizarFuncionario(Funcionario funcionario){
-        return funcionarioRepository.save(funcionario);
+        String cpf = funcionarioRepository.cpfFuncionario(funcionario.getCpf());
+        if(cpf != null){
+            throw new IllegalStateException("Cpf já cadastrado!");
+        }else{
+            funcionario = funcionarioRepository.save(funcionario);
+        }
+        return funcionario;
     }
 
     public void deletarFuncionario(Integer id){

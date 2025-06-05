@@ -13,8 +13,15 @@ public class PessoaFisicaService {
     @Autowired
     private PessoaFisicaRepository pessoaFisicaRepository;
 
-    public PessoaFisica salvarPessoaFisica(PessoaFisica pessoaFisica) {
-        return pessoaFisicaRepository.save(pessoaFisica);
+    //salvarPessoaFisica
+    public PessoaFisica incluirClienteFisica(PessoaFisica pessoaFisica) {
+        String cpf = pessoaFisicaRepository.cpf(pessoaFisica.getCpf());
+        if (cpf != null) {
+            throw new IllegalStateException("Cpf já cadastrado");
+        } else {
+            pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
+        }
+        return pessoaFisica;
     }
 
     public List<PessoaFisica> listarPessoasFisicas(){
