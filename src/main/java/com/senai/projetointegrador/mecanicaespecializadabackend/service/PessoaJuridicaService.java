@@ -21,7 +21,13 @@ public class PessoaJuridicaService {
     }
 
     public PessoaJuridica alterarClienteJuridica(PessoaJuridica pessoaJuridica) {
-        return pessoaJuridicaRepository.save(pessoaJuridica);
+        String cnpj = pessoaJuridicaRepository.cnpj(pessoaJuridica.getCnpj());
+        if(cnpj != null){
+            throw new IllegalStateException("Cnpj já cadastrado");
+        }else{
+            pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
+        }
+        return pessoaJuridica;
     }
 
     public void deletarByIdClienteJuridica(int id) {
