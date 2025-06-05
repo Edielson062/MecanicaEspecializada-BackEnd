@@ -9,7 +9,7 @@ public class PessoaJuridica extends  Cliente {
     @Column(name = "razaoSocial", nullable = false)
     private String razaoSocial;
 
-    @Column(name = "cnpj", length = 14, nullable = false)
+    @Column(name = "cnpj", length = 20, unique = true, nullable = false)
     private String cnpj;
 
     public PessoaJuridica() {
