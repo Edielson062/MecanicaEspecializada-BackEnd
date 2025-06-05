@@ -3,7 +3,7 @@ package com.senai.projetointegrador.mecanicaespecializadabackend.service;
 
 import com.senai.projetointegrador.mecanicaespecializadabackend.enums.StatusOrdemServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.OrdemServico;
-import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemSerivicoRepository;
+import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoRepository;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoPecaRepository;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoServicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +15,18 @@ import java.util.List;
 @Service
 public class OrdemServicoService {
     @Autowired
-    private OrdemSerivicoRepository ordemSerivicoRepository;
+    private OrdemServicoRepository ordemServicoRepository;
     @Autowired
     private OrdemServicoServicoRepository ordemServicoServicoRepository;
     @Autowired
     private OrdemServicoPecaRepository ordemServicoPecaRepository;
 
     public List<OrdemServico> findAll() {
-        return ordemSerivicoRepository.findAll();
+        return ordemServicoRepository.findAll();
     }
 
     public OrdemServico findById(Integer id) {
-        return ordemSerivicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Veiculo não encontrado com o ID: " + id));
+        return ordemServicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Veiculo não encontrado com o ID: " + id));
     }
 
     public OrdemServico save(OrdemServico ordemServico) {
@@ -44,7 +44,7 @@ public class OrdemServicoService {
             valorTotalOSP += valoresOSP.get(i);
         }
         ordemServico.setValorTotal(valorTotalOSS + valorTotalOSP);
-        return ordemSerivicoRepository.save(ordemServico);
+        return ordemServicoRepository.save(ordemServico);
     }
 
 
@@ -53,7 +53,7 @@ public class OrdemServicoService {
         Double valorTotalOSS = 0.0;
         List<Double> valoresOSP = ordemServicoPecaRepository.valoresOsp(ordemServico.getId());
         Double valorTotalOSP = 0.0;
-        Double valorAnterior = ordemSerivicoRepository.valorAnterio(ordemServico.getId());
+        Double valorAnterior = ordemServicoRepository.valorAnterio(ordemServico.getId());
         for (int i = 0; i < valoresOSS.size(); i++) {
             valorTotalOSS += valoresOSS.get(i);
         }
@@ -63,30 +63,30 @@ public class OrdemServicoService {
         if (valorAnterior != (valorTotalOSP + valorTotalOSS)) {
             ordemServico.setValorTotal(valorTotalOSS + valorTotalOSP);
         }
-        return ordemSerivicoRepository.save(ordemServico);
+        return ordemServicoRepository.save(ordemServico);
     }
 
     public OrdemServico pagarOrdemServico(int id) {
-        OrdemServico ordemServico = ordemSerivicoRepository.findById(id)
+        OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço com ID " + id + " não encontrada."));
 
         ordemServico.setStatus(StatusOrdemServico.PAGA);
         ordemServico.setDataFechamento(LocalDate.now());
 
-        return ordemSerivicoRepository.save(ordemServico);
+        return ordemServicoRepository.save(ordemServico);
     }
 
     public OrdemServico cancelarOrdemServico(int id) {
-        OrdemServico ordemServico = ordemSerivicoRepository.findById(id)
+        OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço com ID " + id + " não encontrada."));
 
         ordemServico.setStatus(StatusOrdemServico.CANCELADA);
         ordemServico.setDataFechamento(LocalDate.now());
 
-        return ordemSerivicoRepository.save(ordemServico);
+        return ordemServicoRepository.save(ordemServico);
     }
 
     public void delete(Integer id) {
-        ordemSerivicoRepository.deleteById(id);
+        ordemServicoRepository.deleteById(id);
     }
 }
