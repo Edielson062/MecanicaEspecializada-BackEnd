@@ -6,14 +6,16 @@ import java.time.LocalDate;
 @Entity
 public class PessoaFisica extends Cliente {
 
-    @Column(name = "cpf", length = 11, nullable = false)
+    @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
+
+    @Column(name = "dataNasc")
     private LocalDate dataNasc;
 
     public PessoaFisica() {
     }
 
-    public PessoaFisica(int id, String nome, String email, String telefone, String cpf, LocalDate dataNasc) {
+    public PessoaFisica(Integer id, String nome, String email, String telefone, String cpf, LocalDate dataNasc) {
         super(id, nome, email, telefone);
         this.cpf = cpf;
         this.dataNasc = dataNasc;

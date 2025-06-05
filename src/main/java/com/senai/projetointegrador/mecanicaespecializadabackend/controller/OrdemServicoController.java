@@ -9,28 +9,30 @@ import java.util.List;
 
 @RestController
 @RequestMapping("ordemServico")
+@CrossOrigin("*")
 public class OrdemServicoController {
+
     @Autowired
     private OrdemServicoService ordemServicoService;
 
-    @GetMapping
-    public List<OrdemServico> listar() {
-        return ordemServicoService.findAll();
-    }
-
     @GetMapping("/{id}")
     public OrdemServico buscarPorId(@PathVariable Integer id) {
-        return ordemServicoService.findById(id);
+        return ordemServicoService.buscarPorId(id);
     }
 
     @PostMapping
-    public OrdemServico inserir(@RequestBody OrdemServico ordemServico) {
-        return ordemServicoService.save(ordemServico);
+    public OrdemServico salvarOrdemServico(@RequestBody OrdemServico ordemServico) {
+        return ordemServicoService.salvarOrdemServico(ordemServico);
+    }
+
+    @GetMapping
+    public List<OrdemServico> listarOrdensServico() {
+        return ordemServicoService.listarOrdensServico();
     }
 
     @PutMapping
-    public OrdemServico atualizar(@RequestBody OrdemServico ordemServico) {
-        return ordemServicoService.update(ordemServico);
+    public OrdemServico atualizarOrdemServico(@RequestBody OrdemServico ordemServico) {
+        return ordemServicoService.atualizarOrdemServico(ordemServico);
     }
 
     @PutMapping("/{id}/pagar")
@@ -44,7 +46,7 @@ public class OrdemServicoController {
     }
 
     @DeleteMapping("/{id}")
-    public void remover(@PathVariable Integer id) {
-        ordemServicoService.delete(id);
+    public void deletarOrdemServico(@PathVariable Integer id) {
+        ordemServicoService.deletarOrdemServico(id);
     }
 }

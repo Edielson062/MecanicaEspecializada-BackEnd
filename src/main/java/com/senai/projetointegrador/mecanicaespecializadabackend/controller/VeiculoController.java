@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("veiculos")
+@RequestMapping("veiculo")
 @CrossOrigin("*")
 public class VeiculoController {
 
@@ -21,18 +21,18 @@ public class VeiculoController {
         }
 
         @GetMapping
-        public List<Veiculo> listarVeiculo(){
+        public List<Veiculo> listarVeiculos(){
             return veiculoService.listarVeiculos();
         }
 
         @PutMapping
-        public Veiculo alterarVeiculo(@RequestBody Veiculo veiculo){
-            return veiculoService.alterarVeiculo(veiculo);
+        public Veiculo atualizarVeiculo(@RequestBody Veiculo veiculo){
+            return veiculoService.atualizarVeiculo(veiculo);
         }
 
         @DeleteMapping("/{id}/")
-        public void deletarVeiculo(@PathVariable Integer veiculoId){
-            veiculoService.deletarVeiculo(veiculoId);
+        public void deletarVeiculo(@PathVariable Integer id){
+            veiculoService.deletarVeiculo(id);
         }
 
 }

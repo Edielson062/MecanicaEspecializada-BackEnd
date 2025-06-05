@@ -10,26 +10,31 @@ import java.util.List;
 
 @Service
 public class OrdemServicoServicoService {
+
     @Autowired
     private OrdemServicoServicoRepository ordemServicoServicoRepository;
     @Autowired
     private ServicoRepository servicoRepository;
 
-    public List<OrdemServicoServico> findAll() {
-        return ordemServicoServicoRepository.findAll();
-    }
-
-    public OrdemServicoServico Buscar(Integer id) {
+    public OrdemServicoServico buscarPorId(Integer id) {
         return ordemServicoServicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Veiculo não encontrado com o ID: " + id));
     }
 
-    public OrdemServicoServico save(OrdemServicoServico ordemServicoServico) {
+    public OrdemServicoServico salvarOrdemServicoServico(OrdemServicoServico ordemServicoServico) {
         double valorUnitario = servicoRepository.valorUnitario(ordemServicoServico.getServico().getId());
         ordemServicoServico.setValorTotal(valorUnitario * ordemServicoServico.getQuantidade());
         return ordemServicoServicoRepository.save(ordemServicoServico);
     }
 
-    public void delete(Integer id) {
+    public List<OrdemServicoServico> listarOrdemServicoServicos() {
+        return ordemServicoServicoRepository.findAll();
+    }
+
+    public OrdemServicoServico atualizarOrdemServicoServico(OrdemServicoServico ordemServicoServico) {
+        return ordemServicoServicoRepository.save(ordemServicoServico);
+    }
+
+    public void deletarOrdemServicoServico(Integer id) {
         ordemServicoServicoRepository.deleteById(id);
     }
 }

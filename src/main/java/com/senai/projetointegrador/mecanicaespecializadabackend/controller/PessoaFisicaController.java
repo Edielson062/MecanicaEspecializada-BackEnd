@@ -11,26 +11,27 @@ import java.util.List;
 @RequestMapping("clienteFisica")
 @CrossOrigin("*")
 public class PessoaFisicaController {
+
     @Autowired
     private PessoaFisicaService pessoaFisicaService;
 
-    @GetMapping
-    public List<PessoaFisica> listarClienteFisica() {
-        return pessoaFisicaService.listarClienteFisica();
+    @PostMapping
+    public PessoaFisica salvarPessoaFisica(@RequestBody PessoaFisica pessoaFisica){
+        return pessoaFisicaService.salvarPessoaFisica(pessoaFisica);
     }
 
-    @PostMapping
-    public PessoaFisica incluirClienteFisica(@RequestBody PessoaFisica pessoaFisica){
-        return pessoaFisicaService.incluirClienteFisica(pessoaFisica);
+    @GetMapping
+    public List<PessoaFisica> listarPessoasFisicas() {
+        return pessoaFisicaService.listarPessoasFisicas();
     }
 
     @PutMapping
-    public PessoaFisica alterarClienteJFisica(@RequestBody PessoaFisica pessoaFisica) {
-        return pessoaFisicaService.alterarClienteFisica(pessoaFisica);
+    public PessoaFisica atualizarPessoaFisica(@RequestBody PessoaFisica pessoaFisica) {
+        return pessoaFisicaService.atualizarPessoaFisica(pessoaFisica);
     }
 
     @DeleteMapping("/{id}")
-    public void deletarClienteByIdFisica(@PathVariable int id){
-        pessoaFisicaService.deletarByIdClienteFisica(id);
+    public void deletarPessoaFisica(@PathVariable Integer id){
+        pessoaFisicaService.deletarPessoaFisica(id);
     }
 }
