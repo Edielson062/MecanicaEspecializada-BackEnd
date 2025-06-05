@@ -6,7 +6,7 @@ import java.time.LocalDate;
 @Entity
 public class PessoaFisica extends Cliente {
 
-    @Column(name = "cpf", nullable = false, unique = true, length = 14)
+    @Column(name = "cpf", nullable = false, unique = true, length = 20)
     private String cpf;
 
     @Column(name = "dataNasc")

@@ -28,7 +28,7 @@ public abstract class Cliente {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "telefone", nullable = false, length = 13)
+    @Column(name = "telefone", nullable = false, length = 20)
     private String telefone;
 
     public Cliente() {
