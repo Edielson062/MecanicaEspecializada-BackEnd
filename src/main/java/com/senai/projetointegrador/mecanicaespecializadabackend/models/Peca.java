@@ -5,25 +5,26 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "peca")
 public class Peca {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
-    @Column
+    @Column(name = "codigo", nullable = false)
     private String codigo;
 
-    @Column
+    @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column
+    @Column(name = "valorUnitario", nullable = false)
     private double valorUnitario;
 
-    @Column
+    @Column(name = "quantidade", nullable = false)
     private int quantidade;
 
     public Peca() {}
 
-    public Peca(int id, String codigo, String descricao, double valorUnitario, int quantidade) {
+    public Peca(Integer id, String codigo, String descricao, double valorUnitario, int quantidade) {
         this.id = id;
         this.codigo = codigo;
         this.descricao = descricao;
@@ -31,11 +32,11 @@ public class Peca {
         this.quantidade = quantidade;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

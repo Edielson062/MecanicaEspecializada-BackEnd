@@ -21,10 +21,6 @@ public class VeiculoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public List<Veiculo> listarVeiculos(){
-        return veiculoRepository.findAll();
-    }
-
     public Veiculo salvarVeiculo(Veiculo veiculo) {
         Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
 
@@ -37,11 +33,15 @@ public class VeiculoService {
         return veiculoSalvo;
     }
 
-    public Veiculo alterarVeiculo(Veiculo veiculo){
+    public List<Veiculo> listarVeiculos(){
+        return veiculoRepository.findAll();
+    }
+
+    public Veiculo atualizarVeiculo(Veiculo veiculo){
         return veiculoRepository.save(veiculo);
     }
 
-    public void deletarVeiculo(Integer veiculoId){
-        veiculoRepository.deleteById(veiculoId);
+    public void deletarVeiculo(Integer id){
+        veiculoRepository.deleteById(id);
     }
 }

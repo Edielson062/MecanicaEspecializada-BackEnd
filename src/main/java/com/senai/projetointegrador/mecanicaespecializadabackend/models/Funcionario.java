@@ -16,9 +16,8 @@ public class Funcionario {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "cpf", nullable = false)
+    @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
-
 
     public Funcionario() {
     }

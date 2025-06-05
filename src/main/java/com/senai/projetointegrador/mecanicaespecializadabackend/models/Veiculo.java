@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Veiculo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "marca", nullable = false)
@@ -16,7 +16,10 @@ public class Veiculo {
     @Column(name = "modelo", nullable = false)
     private String modelo;
 
-    @Column(name = "placa", nullable = false)
+    @Column(name = "ano", nullable = false)
+    private Integer ano;
+
+    @Column(name = "placa", nullable = false, unique = true)
     private String placa;
 
     @Column(name = "quilometragem", nullable = false)
@@ -28,12 +31,14 @@ public class Veiculo {
     public Veiculo() {
     }
 
-    public Veiculo(Integer id, String marca, String modelo, String placa, Integer quilometragem) {
+    public Veiculo(Integer id, String marca, String modelo, Integer ano, String placa, Integer quilometragem, Integer idCliente) {
         this.id = id;
         this.marca = marca;
         this.modelo = modelo;
+        this.ano = ano;
         this.placa = placa;
         this.quilometragem = quilometragem;
+        this.idCliente = idCliente;
     }
 
     public Integer getId() {
@@ -68,6 +73,14 @@ public class Veiculo {
         this.modelo = modelo;
     }
 
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
+
     public String getPlaca() {
         return placa;
     }
@@ -83,4 +96,5 @@ public class Veiculo {
     public void setQuilometragem(Integer quilometragem) {
         this.quilometragem = quilometragem;
     }
+
 }

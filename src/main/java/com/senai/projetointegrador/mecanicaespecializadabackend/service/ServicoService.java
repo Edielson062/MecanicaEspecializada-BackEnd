@@ -9,26 +9,27 @@ import java.util.List;
 
 @Service
 public class ServicoService {
+
     @Autowired
     private ServicoRepository servicoRepository;
 
-    public List<Servico> findAll() {
-        return servicoRepository.findAll();
-    }
-
-    public Servico findById(Integer id) {
+    public Servico buscarPorId(Integer id) {
         return servicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Veiculo não encontrado com o ID: " + id));
     }
 
-    public Servico save(Servico servico) {
+    public Servico salvarServico(Servico servico) {
         return servicoRepository.save(servico);
     }
 
-    public Servico update(Servico servico) {
+    public List<Servico> listarServicos() {
+        return servicoRepository.findAll();
+    }
+
+    public Servico atualizarServico(Servico servico) {
         return servicoRepository.save(servico);
     }
 
-    public void delete(int id) {
+    public void deletarServico(Integer id) {
         servicoRepository.deleteById(id);
     }
 }
