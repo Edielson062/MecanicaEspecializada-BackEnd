@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class PessoaJuridica extends  Cliente {
 
-    @Column
+    @Column(name = "razaoSocial", nullable = false)
     private String razaoSocial;
 
     @Column(name = "cnpj", length = 14, nullable = false)
