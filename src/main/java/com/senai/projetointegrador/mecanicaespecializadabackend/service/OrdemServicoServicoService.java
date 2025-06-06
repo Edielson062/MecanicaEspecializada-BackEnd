@@ -1,8 +1,10 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.service;
 
+import com.senai.projetointegrador.mecanicaespecializadabackend.factory.CalculoValorStrategyFactory;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.OrdemServicoServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoServicoRepository;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.ServicoRepository;
+import com.senai.projetointegrador.mecanicaespecializadabackend.strategy.CalculoValorStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,11 @@ public class OrdemServicoServicoService {
 
     public OrdemServicoServico salvarOrdemServicoServico(OrdemServicoServico ordemServicoServico) {
         double valorUnitario = servicoRepository.valorUnitario(ordemServicoServico.getServico().getId());
-        ordemServicoServico.setValorTotal(valorUnitario * ordemServicoServico.getQuantidade());
+
+        CalculoValorStrategy strategy = CalculoValorStrategyFactory.getStrategy(CalculoValorStrategyFactory.TipoItem.SERVICO);
+        double valorTotal = strategy.calcularValorTotal(ordemServicoServico.getQuantidade(), valorUnitario);
+
+        ordemServicoServico.setValorTotal(valorTotal);
         return ordemServicoServicoRepository.save(ordemServicoServico);
     }
 

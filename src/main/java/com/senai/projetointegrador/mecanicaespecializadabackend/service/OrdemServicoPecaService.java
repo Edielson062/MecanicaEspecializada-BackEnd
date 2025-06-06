@@ -1,8 +1,10 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.service;
 
+import com.senai.projetointegrador.mecanicaespecializadabackend.factory.CalculoValorStrategyFactory;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.OrdemServicoPeca;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoPecaRepository;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.PecaRepository;
+import com.senai.projetointegrador.mecanicaespecializadabackend.strategy.CalculoValorStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +23,18 @@ public class OrdemServicoPecaService {
     }
 
     public OrdemServicoPeca salvarOrdemServicoPeca(OrdemServicoPeca ordemServicoPeca) {
-        int quantidade = pecaRepository.quantidadeDePecas(ordemServicoPeca.getPeca().getId());
         double valorUnitario = pecaRepository.valorUnitario(ordemServicoPeca.getPeca().getId());
-        if (quantidade < ordemServicoPeca.getQuantidade()) {
-            throw new IllegalStateException("Quantidade de peças indisponivel");
-        }else{
-            ordemServicoPeca.setValorTotal(ordemServicoPeca.getQuantidade() * valorUnitario);
-            ordemServicoPeca = ordemServicoPecaRepository.save(ordemServicoPeca);
+
+        CalculoValorStrategy strategy = CalculoValorStrategyFactory.getStrategy(CalculoValorStrategyFactory.TipoItem.PECA);
+        double valorTotal = strategy.calcularValorTotal(ordemServicoPeca.getQuantidade(), valorUnitario);
+        ordemServicoPeca.setValorTotal(valorTotal);
+
+        int atualizou = pecaRepository.reduzirEstoque(ordemServicoPeca.getPeca().getId(), ordemServicoPeca.getQuantidade());
+        if (atualizou == 0) {
+            throw new IllegalStateException("Não foi possível atualizar o estoque. Verifique a disponibilidade.");
         }
-        return ordemServicoPeca;
+
+        return ordemServicoPecaRepository.save(ordemServicoPeca);
     }
 
     public List<OrdemServicoPeca> listarOrdemServicoPecas() {
@@ -37,16 +42,28 @@ public class OrdemServicoPecaService {
     }
 
     public OrdemServicoPeca atualizarOrdemServicoPeca(OrdemServicoPeca ordemServicoPeca) {
-        int quantidade = pecaRepository.quantidadeDePecas(ordemServicoPeca.getPeca().getId());
+        OrdemServicoPeca antiga = ordemServicoPecaRepository.findById(ordemServicoPeca.getId())
+                .orElseThrow(() -> new IllegalStateException("Ordem de serviço de peça não encontrada"));
+
+        int quantidadeAntiga = antiga.getQuantidade();
+        int quantidadeNova = ordemServicoPeca.getQuantidade();
+        int diferenca = quantidadeNova - quantidadeAntiga;
+
         double valorUnitario = pecaRepository.valorUnitario(ordemServicoPeca.getPeca().getId());
-        if (quantidade < ordemServicoPeca.getQuantidade()) {
-            throw new IllegalStateException("Quantidade de peças indisponivel");
-        }else{
-            ordemServicoPeca.setValorTotal(ordemServicoPeca.getQuantidade() * valorUnitario);
-            ordemServicoPeca = ordemServicoPecaRepository.save(ordemServicoPeca);
+        ordemServicoPeca.setValorTotal(quantidadeNova * valorUnitario);
+
+        if (diferenca > 0) {
+            int atualizou = pecaRepository.reduzirEstoque(ordemServicoPeca.getPeca().getId(), diferenca);
+            if (atualizou == 0) {
+                throw new IllegalStateException("Estoque insuficiente para aumentar a quantidade");
+            }
+        } else if (diferenca < 0) {
+            pecaRepository.reporEstoque(ordemServicoPeca.getPeca().getId(), -diferenca);
         }
-        return ordemServicoPeca;
+
+        return ordemServicoPecaRepository.save(ordemServicoPeca);
     }
+
 
     public void deletarOrdemServicoPeca(Integer id) {
         ordemServicoPecaRepository.deleteById(id);

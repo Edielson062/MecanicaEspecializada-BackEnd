@@ -3,10 +3,7 @@ package com.senai.projetointegrador.mecanicaespecializadabackend.service;
 import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoDTO;
 import com.senai.projetointegrador.mecanicaespecializadabackend.enums.StatusOrdemServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.*;
-import com.senai.projetointegrador.mecanicaespecializadabackend.repository.ClienteRepository;
-import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoPecaRepository;
-import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoRepository;
-import com.senai.projetointegrador.mecanicaespecializadabackend.repository.OrdemServicoServicoRepository;
+import com.senai.projetointegrador.mecanicaespecializadabackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +22,9 @@ public class OrdemServicoService {
     private OrdemServicoPecaRepository ordemServicoPecaRepository;
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private PecaRepository pecaRepository;
 
-    // --- LISTAR TODAS ORDEM SERVICO - retorna lista de DTOs ---
     public List<OrdemServicoDTO> listarOrdensServico() {
         List<OrdemServico> lista = ordemServicoRepository.findAll();
         return lista.stream()
@@ -34,7 +32,6 @@ public class OrdemServicoService {
                 .collect(Collectors.toList());
     }
 
-    // --- BUSCAR POR ID (DTO) ---
     public OrdemServicoDTO buscarPorId(Integer id) {
         OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço não encontrada com o ID: " + id));
@@ -43,12 +40,10 @@ public class OrdemServicoService {
     public OrdemServico fromDTO(OrdemServicoDTO dto) {
         OrdemServico ordemServico = new OrdemServico();
 
-        // Se precisar setar o id (em caso de atualização)
         if (dto.getId() != null) {
             ordemServico.setId(dto.getId());
         }
 
-        // Cliente
         Cliente cliente;
         if (dto.getCliente() != null) {
             if ("juridica".equalsIgnoreCase(dto.getCliente().getTipo())) {
@@ -60,21 +55,17 @@ public class OrdemServicoService {
             ordemServico.setCliente(cliente);
         }
 
-        // Veículo
         if (dto.getVeiculo() != null) {
             Veiculo veiculo = new Veiculo();
             veiculo.setId(dto.getVeiculo().getId());
             ordemServico.setVeiculo(veiculo);
         }
 
-        // Datas
         ordemServico.setDataAbertura(dto.getDataAbertura());
         ordemServico.setDataFechamento(dto.getDataFechamento());
 
-        // Status
         ordemServico.setStatus(dto.getStatus());
 
-        // Observações e valor total
         ordemServico.setObservacoes(dto.getObservacoes());
         ordemServico.setValorTotal(dto.getValorTotal());
 
@@ -82,11 +73,9 @@ public class OrdemServicoService {
     }
 
 
-    // --- SALVAR ORDEM SERVIÇO (recebe DTO, retorna DTO) ---
     public OrdemServicoDTO salvarOrdemServico(OrdemServicoDTO dto) {
         OrdemServico ordemServico = fromDTO(dto);
 
-        // Carregar cliente completo do banco, se id existir
         if (ordemServico.getCliente() != null && ordemServico.getCliente().getId() != null) {
             ordemServico.setCliente(
                     clienteRepository.findById(ordemServico.getCliente().getId())
@@ -98,7 +87,6 @@ public class OrdemServicoService {
             ordemServico.setStatus(StatusOrdemServico.EM_ABERTO);
         }
 
-        // calcular valor total (conforme seu código atual)
         List<Double> valoresOSS = ordemServicoServicoRepository.valoresOss(ordemServico.getId());
         Double valorTotalOSS = valoresOSS.stream().mapToDouble(Double::doubleValue).sum();
         List<Double> valoresOSP = ordemServicoPecaRepository.valoresOsp(ordemServico.getId());
@@ -108,17 +96,13 @@ public class OrdemServicoService {
 
         OrdemServico ordemServicoSalva = ordemServicoRepository.save(ordemServico);
 
-        // Converte para DTO antes de retornar
         return converterEntidadeParaDto(ordemServicoSalva);
     }
 
-
-    // --- ATUALIZAR ORDEM SERVIÇO (DTO) ---
     public OrdemServicoDTO atualizarOrdemServico(OrdemServicoDTO dto) {
         OrdemServico ordemServicoExistente = ordemServicoRepository.findById(dto.getId())
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço não encontrada para atualização"));
 
-        // Atualiza dados da entidade com dados do DTO (exceto id que já existe)
         ordemServicoExistente.setDataAbertura(dto.getDataAbertura());
         ordemServicoExistente.setDataFechamento(dto.getDataFechamento());
         ordemServicoExistente.setStatus(dto.getStatus());
@@ -133,7 +117,6 @@ public class OrdemServicoService {
 
         ordemServicoExistente = ordemServicoRepository.save(ordemServicoExistente);
 
-        // Recalcula valor total
         Double valorTotal = calcularValorTotal(ordemServicoExistente.getId());
         ordemServicoExistente.setValorTotal(valorTotal);
         ordemServicoExistente = ordemServicoRepository.save(ordemServicoExistente);
@@ -141,7 +124,6 @@ public class OrdemServicoService {
         return converterEntidadeParaDto(ordemServicoExistente);
     }
 
-    // --- MÉTODO PARA PAGAR ORDEM ---
     public OrdemServicoDTO pagarOrdemServico(int id) {
         OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço com ID " + id + " não encontrada."));
@@ -154,27 +136,29 @@ public class OrdemServicoService {
         return converterEntidadeParaDto(ordemServico);
     }
 
-    // --- MÉTODO PARA CANCELAR ORDEM ---
     public OrdemServicoDTO cancelarOrdemServico(int id) {
         OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço com ID " + id + " não encontrada."));
 
+        if (ordemServico.getStatus() == StatusOrdemServico.CANCELADA) {
+            throw new IllegalStateException("A ordem de serviço já está cancelada.");
+        }
+
+        List<OrdemServicoPeca> pecas = ordemServicoPecaRepository.findByOrdemServicoId(id);
+        for (OrdemServicoPeca osp : pecas) {
+            pecaRepository.reporEstoque(osp.getPeca().getId(), osp.getQuantidade());
+        }
+
         ordemServico.setStatus(StatusOrdemServico.CANCELADA);
         ordemServico.setDataFechamento(LocalDate.now());
-
         ordemServico = ordemServicoRepository.save(ordemServico);
 
         return converterEntidadeParaDto(ordemServico);
     }
 
-    // --- DELETAR ORDEM ---
     public void deletarOrdemServico(Integer id) {
         ordemServicoRepository.deleteById(id);
     }
-
-    // -----------------------
-    // MÉTODOS AUXILIARES
-    // -----------------------
 
     private Double calcularValorTotal(Integer ordemServicoId) {
         List<Double> valoresOSS = ordemServicoServicoRepository.valoresOss(ordemServicoId);
@@ -187,9 +171,8 @@ public class OrdemServicoService {
     }
 
 
-    // CONVERTER ENTIDADE -> DTO
     private OrdemServicoDTO converterEntidadeParaDto(OrdemServico ordemServico) {
-        // Recalcula o valor total
+
         Double valorTotalAtualizado = calcularValorTotal(ordemServico.getId());
         ordemServico.setValorTotal(valorTotalAtualizado);
 

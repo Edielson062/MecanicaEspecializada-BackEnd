@@ -11,4 +11,7 @@ import java.util.List;
 public interface OrdemServicoPecaRepository extends JpaRepository<OrdemServicoPeca, Integer> {
     @Query("select osp.valorTotal from OrdemServicoPeca osp where osp.ordemServico.id = :idOrdemServico")
     List<Double> valoresOsp(@Param("idOrdemServico") int idOrdemServico);
+
+    List<OrdemServicoPeca> findByOrdemServicoId(Integer ordemServicoId);
+
 }
