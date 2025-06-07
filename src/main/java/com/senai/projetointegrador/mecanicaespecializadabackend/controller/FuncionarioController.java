@@ -30,7 +30,7 @@ public class FuncionarioController {
         return funcionarioService.atualizarFuncionario(funcionario);
     }
 
-    @DeleteMapping("/{id}/")
+    @DeleteMapping("/{id}")
     public void deletarFuncionario(@PathVariable Integer id){
         funcionarioService.deletarFuncionario(id);
     }
