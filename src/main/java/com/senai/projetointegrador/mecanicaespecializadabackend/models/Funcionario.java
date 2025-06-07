@@ -13,19 +13,15 @@ public class Funcionario {
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "email", nullable = false)
-    private String email;
-
     @Column(name = "cpf", nullable = false, unique = true, length = 14)
     private String cpf;
 
     public Funcionario() {
     }
 
-    public Funcionario(Integer id, String nome, String email, String cpf) {
+    public Funcionario(Integer id, String nome, String cpf) {
         this.id = id;
         this.nome = nome;
-        this.email = email;
         this.cpf = cpf;
     }
 
@@ -43,14 +39,6 @@ public class Funcionario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getCpf() {
