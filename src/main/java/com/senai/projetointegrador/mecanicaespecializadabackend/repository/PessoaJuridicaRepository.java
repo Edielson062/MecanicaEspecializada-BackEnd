@@ -11,4 +11,5 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica,I
 //    String cnpj(@Param("cnpj") String cnpj);
 
     PessoaJuridica findByCnpj(String cnpj);
+    boolean existsByCnpj(String cnpj);
 }
