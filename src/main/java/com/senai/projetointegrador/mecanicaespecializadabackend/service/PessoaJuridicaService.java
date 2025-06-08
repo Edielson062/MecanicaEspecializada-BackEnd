@@ -5,6 +5,7 @@ import com.senai.projetointegrador.mecanicaespecializadabackend.repository.Pesso
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 @Service
@@ -36,4 +37,9 @@ public class PessoaJuridicaService {
         }
         return pessoaJuridicaRepository.save(pessoaJuridica);
     }
+
+    public boolean existeCnpj(String cnpj) {
+        return pessoaJuridicaRepository.existsByCnpj(cnpj);
+    }
+
 }
