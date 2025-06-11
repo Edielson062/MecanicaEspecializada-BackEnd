@@ -30,19 +30,20 @@ public class Veiculo {
     @Column(name = "quilometragem", nullable = false)
     private Integer quilometragem;
 
-    @Column(name = "idCliente", nullable = false)
-    private Integer idCliente;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
 
     public Veiculo() {
     }
 
-    public Veiculo(Integer id, Modelo modelo, Integer ano, String placa, Integer quilometragem, Integer idCliente) {
+    public Veiculo(Integer id, Modelo modelo, Integer ano, String placa, Integer quilometragem, Cliente cliente) {
         this.id = id;
         this.modelo = modelo;
         this.ano = ano;
         this.placa = placa;
         this.quilometragem = quilometragem;
-        this.idCliente = idCliente;
+        this.cliente = cliente;
     }
 
     public Integer getId() {
@@ -85,11 +86,11 @@ public class Veiculo {
         this.quilometragem = quilometragem;
     }
 
-    public Integer getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
