@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VeiculoService { //
+public class VeiculoService {
 
     @Autowired
     private VeiculoRepository veiculoRepository;
@@ -22,16 +22,8 @@ public class VeiculoService { //
     private ClienteRepository clienteRepository;
 
     public Veiculo salvarVeiculo(Veiculo veiculo) {
-        // Regra para garantir associação correta:
-        if (veiculo.getCliente() == null || veiculo.getCliente().getId() == null) {
-            throw new IllegalArgumentException("Cliente deve ser informado!");
-        }
-        // Recupera o cliente do banco para garantir que está anexado ao contexto
-        Cliente cliente = clienteRepository.findById(veiculo.getCliente().getId())
-                .orElseThrow(() -> new RuntimeException("Cliente com ID " + veiculo.getCliente().getId() + " não encontrado."));
-        veiculo.setCliente(cliente);
-
-        // Agora sim salva, com cliente gerenciado pelo JPA
+        Cliente cliente = clienteRepository.findById(veiculo.getClienteId()).orElseThrow(() -> new RuntimeException("Cliente com ID " + veiculo.getClienteId() + " não encontrado."));
+        ClienteVeiculo clienteVeiculo = new ClienteVeiculo(cliente,veiculo);
         return veiculoRepository.save(veiculo);
     }
 
