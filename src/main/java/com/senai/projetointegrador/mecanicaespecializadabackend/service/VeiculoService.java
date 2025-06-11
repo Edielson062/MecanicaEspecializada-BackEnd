@@ -22,15 +22,17 @@ public class VeiculoService { //
     private ClienteRepository clienteRepository;
 
     public Veiculo salvarVeiculo(Veiculo veiculo) {
-        Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
+        // Regra para garantir associação correta:
+        if (veiculo.getCliente() == null || veiculo.getCliente().getId() == null) {
+            throw new IllegalArgumentException("Cliente deve ser informado!");
+        }
+        // Recupera o cliente do banco para garantir que está anexado ao contexto
+        Cliente cliente = clienteRepository.findById(veiculo.getCliente().getId())
+                .orElseThrow(() -> new RuntimeException("Cliente com ID " + veiculo.getCliente().getId() + " não encontrado."));
+        veiculo.setCliente(cliente);
 
-        Integer idCliente = veiculo.getIdCliente();
-        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente com ID " + idCliente + " não encontrado."));
-
-        ClienteVeiculo clienteVeiculo = new ClienteVeiculo(cliente, veiculoSalvo);
-        clienteVeiculoRepository.save(clienteVeiculo);
-
-        return veiculoSalvo;
+        // Agora sim salva, com cliente gerenciado pelo JPA
+        return veiculoRepository.save(veiculo);
     }
 
     public List<Veiculo> listarVeiculos(){
