@@ -31,6 +31,12 @@ public abstract class Cliente {
     @Column(name = "telefone", nullable = false, length = 20)
     private String telefone;
 
+    @ManyToOne
+    private PessoaFisica pessoaFisica;
+
+    @ManyToOne
+    private PessoaJuridica pessoaJuridica;
+
     public Cliente() {
     }
 
