@@ -221,9 +221,11 @@ public class OrdemServicoService {
 
             dto.setNome(ordemServico.getCliente().getNome());
         }
-
+        String marca = String.valueOf(ordemServico.getVeiculo().getModelo().getMarca().getNome());
+        String modelo = String.valueOf(ordemServico.getVeiculo().getModelo().getNome());
+        String placa = ordemServico.getVeiculo().getPlaca();
         if (ordemServico.getVeiculo() != null) {
-            dto.setVeiculo(ordemServico.getVeiculo().getMarca() + " - " + ordemServico.getVeiculo().getModelo() + " - " + ordemServico.getVeiculo().getPlaca());
+            dto.setVeiculo(marca + " - " + modelo + " - " + placa);
         }
 
         return dto;
