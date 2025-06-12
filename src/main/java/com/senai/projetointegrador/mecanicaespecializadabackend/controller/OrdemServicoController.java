@@ -17,7 +17,7 @@ public class OrdemServicoController {
     private OrdemServicoService ordemServicoService;
 
     @GetMapping("/{id}")
-    public OrdemServicoDTO buscarPorId(@PathVariable Integer id) {
+    public OrdemServicoResponseDTO buscarPorId(@PathVariable Integer id) {
         return ordemServicoService.buscarPorId(id);
     }
 
