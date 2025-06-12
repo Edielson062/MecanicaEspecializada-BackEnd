@@ -33,10 +33,10 @@ public class OrdemServicoService {
                 .collect(Collectors.toList());
     }
 
-    public OrdemServicoDTO buscarPorId(Integer id) {
+    public OrdemServicoResponseDTO buscarPorId(Integer id) {
         OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço não encontrada com o ID: " + id));
-        return converterEntidadeParaDto(ordemServico);
+        return converterEntidadeParaDtoResponse(ordemServico);
     }
     public OrdemServico fromDTO(OrdemServicoDTO dto) {
         OrdemServico ordemServico = new OrdemServico();
@@ -213,6 +213,8 @@ public class OrdemServicoService {
 
         OrdemServicoResponseDTO dto = new OrdemServicoResponseDTO();
         dto.setId(ordemServico.getId());
+        dto.setDataAbertura(ordemServico.getDataAbertura());
+        dto.setDataFechamento(ordemServico.getDataFechamento());
         dto.setStatus(ordemServico.getStatus());
         dto.setObservacoes(ordemServico.getObservacoes());
         dto.setValorTotal(ordemServico.getValorTotal());
@@ -225,7 +227,7 @@ public class OrdemServicoService {
         String modelo = String.valueOf(ordemServico.getVeiculo().getModelo().getNome());
         String placa = ordemServico.getVeiculo().getPlaca();
         if (ordemServico.getVeiculo() != null) {
-            dto.setVeiculo(marca + " - " + modelo + " - " + placa);
+            dto.setDescricaoVeiculo(marca + " - " + modelo + " - " + placa);
         }
 
         return dto;

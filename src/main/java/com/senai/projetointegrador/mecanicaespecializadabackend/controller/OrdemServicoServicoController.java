@@ -1,8 +1,11 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.controller;
 
+import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoServicoDTO;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.OrdemServicoServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.service.OrdemServicoServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +24,9 @@ public class OrdemServicoServicoController {
     }
 
     @PostMapping
-    public OrdemServicoServico salvarOrdemServicoServico(@RequestBody OrdemServicoServico ordemServicoServico) {
-        return ordemServicoServicoService.salvarOrdemServicoServico(ordemServicoServico);
+    public ResponseEntity<OrdemServicoServico> salvar(@RequestBody OrdemServicoServicoDTO dto) {
+        OrdemServicoServico salvo = ordemServicoServicoService.salvarOrdemServicoServico(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
     @GetMapping
