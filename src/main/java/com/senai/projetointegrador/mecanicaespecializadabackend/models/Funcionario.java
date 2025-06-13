@@ -3,7 +3,7 @@ package com.senai.projetointegrador.mecanicaespecializadabackend.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "fucionario")
+@Table(name = "funcionario")
 public class Funcionario {
 
     @Id
