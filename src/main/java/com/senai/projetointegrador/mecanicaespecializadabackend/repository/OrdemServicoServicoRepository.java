@@ -12,4 +12,7 @@ public interface OrdemServicoServicoRepository extends JpaRepository<OrdemServic
 
     @Query("select oss.valorTotal from OrdemServicoServico oss where oss.ordemServico.id = :idOrdemServico")
     List<Double> valoresOss(@Param("idOrdemServico") int idOrdemServico);
+
+    @Query("select oss from OrdemServicoServico oss where oss.ordemServico.id = :idOrdemServico")
+    List<OrdemServicoServico> listarOrdemServicoServicoByOrdemServico(@Param("idOrdemServico")int idOrdemServico);
 }

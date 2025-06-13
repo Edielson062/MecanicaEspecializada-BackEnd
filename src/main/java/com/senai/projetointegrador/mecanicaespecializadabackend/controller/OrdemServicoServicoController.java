@@ -1,6 +1,7 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.controller;
 
 import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoServicoDTO;
+import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoServicoResponsDTo;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.OrdemServicoServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.service.OrdemServicoServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ public class OrdemServicoServicoController {
     private OrdemServicoServicoService ordemServicoServicoService;
 
     @GetMapping("/{id}")
-    public OrdemServicoServico buscarPorId(@PathVariable Integer id) {
-        return ordemServicoServicoService.buscarPorId(id);
+    public OrdemServicoServicoResponsDTo buscarPorId(@PathVariable Integer id) {
+        return ordemServicoServicoService.buscarPorIdDto(id);
     }
+
 
     @PostMapping
     public ResponseEntity<OrdemServicoServico> salvar(@RequestBody OrdemServicoServicoDTO dto) {
@@ -30,9 +32,15 @@ public class OrdemServicoServicoController {
     }
 
     @GetMapping
-    public List<OrdemServicoServico> listarOrdemServicoServicos() {
+    public List<OrdemServicoServicoResponsDTo> listarOrdemServicoServicos() {
         return ordemServicoServicoService.listarOrdemServicoServicos();
     }
+
+    @GetMapping("/servicos/{id}")
+    public List<OrdemServicoServicoResponsDTo> listarOrdemServicoServicosPorOSID(@PathVariable Integer id) {
+        return ordemServicoServicoService.listarOrdemServicoServicosPorOSID(id);
+    }
+
 
     @PutMapping
     public OrdemServicoServico atualizarOrdemServicoServico(@RequestBody OrdemServicoServico ordemServicoServico) {
