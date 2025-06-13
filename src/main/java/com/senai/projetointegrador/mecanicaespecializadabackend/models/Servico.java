@@ -14,11 +14,11 @@ public class Servico {
     private String descricao;
 
     @Column(name = "valorUnitario", nullable = false)
-    private int valorUnitario;
+    private double valorUnitario;
 
     public Servico() {}
 
-    public Servico(Integer id, String descricao, int valorUnitario) {
+    public Servico(Integer id, String descricao, double valorUnitario) {
         this.id = id;
         this.descricao = descricao;
         this.valorUnitario = valorUnitario;
@@ -40,7 +40,7 @@ public class Servico {
         this.descricao = descricao;
     }
 
-    public int getValorUnitario() {
+    public double getValorUnitario() {
         return valorUnitario;
     }
 
