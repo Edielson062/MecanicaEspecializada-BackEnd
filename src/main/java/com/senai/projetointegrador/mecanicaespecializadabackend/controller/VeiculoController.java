@@ -19,6 +19,7 @@ public class VeiculoController {
             return veiculoService.salvarVeiculo(veiculo);
         }
 
+
         @GetMapping
         public List<Veiculo> listarVeiculos(){
             return veiculoService.listarVeiculos();
