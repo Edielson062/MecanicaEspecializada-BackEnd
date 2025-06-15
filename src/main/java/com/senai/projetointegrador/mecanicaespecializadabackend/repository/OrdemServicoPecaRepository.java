@@ -17,4 +17,12 @@ public interface OrdemServicoPecaRepository extends JpaRepository<OrdemServicoPe
 
     @Query("select osp from OrdemServicoPeca osp where osp.ordemServico.id = :idOrdemServico")
     List<OrdemServicoPeca> listarOrdemServicoPecaByOrdemServico(@Param("idOrdemServico")int idOrdemServico);
+
+
+
+
+    // Valor total de peças utilizadas em todas as OS
+    @Query("SELECT SUM(osp.valorTotal) FROM OrdemServicoPeca osp")
+    Double sumValorTotalPecas();
+
 }
