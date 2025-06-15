@@ -15,4 +15,21 @@ public interface OrdemServicoServicoRepository extends JpaRepository<OrdemServic
 
     @Query("select oss from OrdemServicoServico oss where oss.ordemServico.id = :idOrdemServico")
     List<OrdemServicoServico> listarOrdemServicoServicoByOrdemServico(@Param("idOrdemServico")int idOrdemServico);
+
+
+    // Valor total de serviços realizados em todas as OS
+    @Query("SELECT SUM(oss.valorTotal) FROM OrdemServicoServico oss")
+    Double sumValorTotalServicos();
+
+    // Ranking dos serviços mais executados: descrição, quantidade realizada, faturamento
+    @Query("SELECT s.descricao, COUNT(oss.id) AS qtd, SUM(oss.valorTotal) AS valorTotal " +
+            "FROM OrdemServicoServico oss JOIN oss.servico s " +
+            "GROUP BY s.descricao ORDER BY qtd DESC")
+    List<Object[]> findRankingServicos();
+
+    // Lista para pegar o serviço mais solicitado (ordene e pegue o primeiro no service)
+    @Query("SELECT s.descricao, COUNT(oss.id) AS qtd " +
+            "FROM OrdemServicoServico oss JOIN oss.servico s " +
+            "GROUP BY s.descricao ORDER BY qtd DESC")
+    List<Object[]> findServicoMaisSolicitadoRaw();
 }
