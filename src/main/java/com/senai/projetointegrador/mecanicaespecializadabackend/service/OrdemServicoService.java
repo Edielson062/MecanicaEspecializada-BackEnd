@@ -1,6 +1,7 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.service;
 
 import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoDTO;
+import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoResponseDTO;
 import com.senai.projetointegrador.mecanicaespecializadabackend.enums.StatusOrdemServico;
 import com.senai.projetointegrador.mecanicaespecializadabackend.models.*;
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.*;
@@ -25,17 +26,17 @@ public class OrdemServicoService {
     @Autowired
     private PecaRepository pecaRepository;
 
-    public List<OrdemServicoDTO> listarOrdensServico() {
+    public List<OrdemServicoResponseDTO> listarOrdensServico() {
         List<OrdemServico> lista = ordemServicoRepository.findAll();
         return lista.stream()
-                .map(this::converterEntidadeParaDto)
+                .map(this::converterEntidadeParaDtoResponse)
                 .collect(Collectors.toList());
     }
 
-    public OrdemServicoDTO buscarPorId(Integer id) {
+    public OrdemServicoResponseDTO buscarPorId(Integer id) {
         OrdemServico ordemServico = ordemServicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de Serviço não encontrada com o ID: " + id));
-        return converterEntidadeParaDto(ordemServico);
+        return converterEntidadeParaDtoResponse(ordemServico);
     }
     public OrdemServico fromDTO(OrdemServicoDTO dto) {
         OrdemServico ordemServico = new OrdemServico();
@@ -156,8 +157,15 @@ public class OrdemServicoService {
         return converterEntidadeParaDto(ordemServico);
     }
 
-    public void deletarOrdemServico(Integer id) {
-        ordemServicoRepository.deleteById(id);
+    public OrdemServicoDTO reabrirOrdemServico(int id) {
+        OrdemServico ordemServico = ordemServicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ordem de Serviço com ID " + id + " não encontrada."));
+
+        ordemServico.setStatus(StatusOrdemServico.EM_ABERTO);
+
+        ordemServico = ordemServicoRepository.save(ordemServico);
+
+        return converterEntidadeParaDto(ordemServico);
     }
 
     private Double calcularValorTotal(Integer ordemServicoId) {
@@ -194,6 +202,32 @@ public class OrdemServicoService {
             OrdemServicoDTO.VeiculoDTO veiculoDto = new OrdemServicoDTO.VeiculoDTO();
             veiculoDto.setId(ordemServico.getVeiculo().getId());
             dto.setVeiculo(veiculoDto);
+        }
+
+        return dto;
+    }
+    private OrdemServicoResponseDTO converterEntidadeParaDtoResponse(OrdemServico ordemServico) {
+
+        Double valorTotalAtualizado = calcularValorTotal(ordemServico.getId());
+        ordemServico.setValorTotal(valorTotalAtualizado);
+
+        OrdemServicoResponseDTO dto = new OrdemServicoResponseDTO();
+        dto.setId(ordemServico.getId());
+        dto.setDataAbertura(ordemServico.getDataAbertura());
+        dto.setDataFechamento(ordemServico.getDataFechamento());
+        dto.setStatus(ordemServico.getStatus());
+        dto.setObservacoes(ordemServico.getObservacoes());
+        dto.setValorTotal(ordemServico.getValorTotal());
+
+        if (ordemServico.getCliente() != null) {
+
+            dto.setNome(ordemServico.getCliente().getNome());
+        }
+        String marca = String.valueOf(ordemServico.getVeiculo().getModelo().getMarca().getNome());
+        String modelo = String.valueOf(ordemServico.getVeiculo().getModelo().getNome());
+        String placa = ordemServico.getVeiculo().getPlaca();
+        if (ordemServico.getVeiculo() != null) {
+            dto.setDescricaoVeiculo(marca + " - " + modelo + " - " + placa);
         }
 
         return dto;

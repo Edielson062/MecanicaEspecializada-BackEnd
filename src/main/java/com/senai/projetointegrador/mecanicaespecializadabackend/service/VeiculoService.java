@@ -22,15 +22,9 @@ public class VeiculoService {
     private ClienteRepository clienteRepository;
 
     public Veiculo salvarVeiculo(Veiculo veiculo) {
-        Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
-
-        Integer idCliente = veiculo.getIdCliente();
-        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new RuntimeException("Cliente com ID " + idCliente + " não encontrado."));
-
-        ClienteVeiculo clienteVeiculo = new ClienteVeiculo(cliente, veiculoSalvo);
-        clienteVeiculoRepository.save(clienteVeiculo);
-
-        return veiculoSalvo;
+        Cliente cliente = clienteRepository.findById(veiculo.getClienteId()).orElseThrow(() -> new RuntimeException("Cliente com ID " + veiculo.getClienteId() + " não encontrado."));
+        ClienteVeiculo clienteVeiculo = new ClienteVeiculo(cliente,veiculo);
+        return veiculoRepository.save(veiculo);
     }
 
     public List<Veiculo> listarVeiculos(){

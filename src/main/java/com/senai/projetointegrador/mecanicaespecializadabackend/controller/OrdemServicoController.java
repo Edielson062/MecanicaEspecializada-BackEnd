@@ -1,6 +1,7 @@
 package com.senai.projetointegrador.mecanicaespecializadabackend.controller;
 
 import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoDTO;
+import com.senai.projetointegrador.mecanicaespecializadabackend.dto.OrdemServicoResponseDTO;
 import com.senai.projetointegrador.mecanicaespecializadabackend.service.OrdemServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class OrdemServicoController {
     private OrdemServicoService ordemServicoService;
 
     @GetMapping("/{id}")
-    public OrdemServicoDTO buscarPorId(@PathVariable Integer id) {
+    public OrdemServicoResponseDTO buscarPorId(@PathVariable Integer id) {
         return ordemServicoService.buscarPorId(id);
     }
 
@@ -26,7 +27,7 @@ public class OrdemServicoController {
     }
 
     @GetMapping
-    public List<OrdemServicoDTO> listarOrdensServico() {
+    public List<OrdemServicoResponseDTO> listarOrdensServico() {
         return ordemServicoService.listarOrdensServico();
     }
 
@@ -45,8 +46,9 @@ public class OrdemServicoController {
         return ordemServicoService.cancelarOrdemServico(id);
     }
 
-    @DeleteMapping("/{id}")
-    public void deletarOrdemServico(@PathVariable Integer id) {
-        ordemServicoService.deletarOrdemServico(id);
+    @PutMapping("/{id}/reabrir")
+    public OrdemServicoDTO reabrirOrdemServico(@PathVariable int id) {
+        return ordemServicoService.reabrirOrdemServico(id);
     }
+
 }

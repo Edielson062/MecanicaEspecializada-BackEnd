@@ -5,6 +5,7 @@ import com.senai.projetointegrador.mecanicaespecializadabackend.repository.Pesso
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 
 @Service
@@ -20,17 +21,25 @@ public class PessoaJuridicaService {
         return pessoaJuridicaRepository.save(pessoaJuridica);
     }
 
-    public PessoaJuridica atualizarPessoaJuridica(PessoaJuridica pessoaJuridica) {
-        String cnpj = pessoaJuridicaRepository.cnpj(pessoaJuridica.getCnpj());
-        if(cnpj != null){
-            throw new IllegalStateException("Cnpj já cadastrado");
-        }else{
-            pessoaJuridica = pessoaJuridicaRepository.save(pessoaJuridica);
-        }
-        return pessoaJuridica;
-    }
-
     public void deletarPessoaJuridica(int id) {
         pessoaJuridicaRepository.deleteById(id);
     }
+
+    public PessoaJuridica atualizarPessoaJuridica(PessoaJuridica pessoaJuridica) {
+        PessoaJuridica existente = pessoaJuridicaRepository.findByCnpj(pessoaJuridica.getCnpj());
+        System.out.println("Pessoa recebida: " + pessoaJuridica.getId() + " / " + pessoaJuridica.getCnpj());
+        if (existente != null) {
+            System.out.println("Pessoa existente: " + existente.getId() + " / " + existente.getCnpj());
+        }
+        if (existente != null && !existente.getId().equals(pessoaJuridica.getId())) {
+            // Só lança exceção caso o CNPJ já esteja com outro registro
+            throw new IllegalStateException("Cnpj já cadastrado");
+        }
+        return pessoaJuridicaRepository.save(pessoaJuridica);
+    }
+
+    public boolean existeCnpj(String cnpj) {
+        return pessoaJuridicaRepository.existsByCnpj(cnpj);
+    }
+
 }

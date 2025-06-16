@@ -4,7 +4,6 @@ import com.senai.projetointegrador.mecanicaespecializadabackend.models.Funcionar
 import com.senai.projetointegrador.mecanicaespecializadabackend.repository.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -14,14 +13,6 @@ public class FuncionarioService {
     private FuncionarioRepository funcionarioRepository;
 
     public Funcionario salvarFuncionario(Funcionario funcionario){
-        return funcionarioRepository.save(funcionario);
-    }
-
-    public List<Funcionario> listarFuncionarios(){
-        return funcionarioRepository.findAll();
-    }
-
-    public Funcionario atualizarFuncionario(Funcionario funcionario){
         String cpf = funcionarioRepository.cpfFuncionario(funcionario.getCpf());
         if(cpf != null){
             throw new IllegalStateException("Cpf já cadastrado!");
@@ -29,6 +20,14 @@ public class FuncionarioService {
             funcionario = funcionarioRepository.save(funcionario);
         }
         return funcionario;
+    }
+
+    public List<Funcionario> listarFuncionarios(){
+        return funcionarioRepository.findAll();
+    }
+
+    public Funcionario atualizarFuncionario(Funcionario funcionario){
+        return funcionarioRepository.save(funcionario);
     }
 
     public void deletarFuncionario(Integer funcionarioId){
