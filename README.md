@@ -1,4 +1,4 @@
-# MecanicaOficializada-BackEnd
+# MecanicaEspecializada-BackEnd
 
 ## Descrição do Projeto
 
