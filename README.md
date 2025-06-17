@@ -38,7 +38,7 @@ Siga os passos abaixo para clonar e executar o projeto em sua máquina:
 
 1.  **Clone o Repositório:**
     ```bash
-    git clone [https://github.com/Edielson062/MecanicaEspecializada-BackEnd.git](https://github.com/Edielson062/MecanicaEspecializada-BackEnd.git)
+    git clone https://github.com/Edielson062/MecanicaEspecializada-BackEnd.git
     ```
 
 2.  **Acesse o Diretório do Projeto:**
@@ -48,7 +48,7 @@ Siga os passos abaixo para clonar e executar o projeto em sua máquina:
 
 3.  **Execute o Projeto:**
 
-    Execute a aplicação em sua IDE de preferencia, a aplicação estará disponível em `http://localhost:8080` (porta padrão do Spring Boot).
+    Execute a aplicação em sua IDE de preferência, a aplicação estará disponível em `http://localhost:8080` (porta padrão do Spring Boot).
 
 ---
 
